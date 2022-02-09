@@ -32,12 +32,29 @@ int monthsOld(int currentYear, int currentMonth, int currentDay,
     return (currentYear - birthYear) * 12 + currentMonth - birthMonth - (currentDay < birthDay);
 }
 
-int main() {    
-    int MO;
-    MO = monthsOld(2022, 2, 9,
-                   1999, 6, 3);
+int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
+    int years = birthYear - 1900;
+    cout << years << "\n";
+    int leapYears = years / 4 - years / 100;
+    cout << leapYears << "\n";
+    int days_since_1900 = (years* 365 + leapYears);
 
-    cout << MO << "\n";
+    const int daysInMonth [12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    for (size_t i = 0; i < (birthMonth - 1); i++)
+    {
+        days_since_1900 += daysInMonth[i];
+    }
+
+    days_since_1900 += birthDay;
+
+    cout << days_since_1900 << "\n";
+    cout << days_since_1900 % 7 << "\n";
+    return days_since_1900 % 7;
+    
+}
+
+int main() {    
+    dayOfTheWeek(1999, 6, 3);
     return 0;
 }
 

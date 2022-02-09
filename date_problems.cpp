@@ -7,6 +7,11 @@
 using namespace std;
 
 string birthInput();
+int yearsOld(int currentYear, int currentMonth, int currentDay,
+             int birthYear, int birthMonth, int birthDay);
+int monthsOld(int currentYear, int currentMonth, int currentDay,
+              int birthYear, int birthMonth, int birthDay);
+int dayOfTheWeek(int birthYear,int birthMonth,int birthDay);
 
 
 void main() {
@@ -17,7 +22,6 @@ void main() {
     birthDay = stoi(birth.substr(0, 2));
     birthMonth = stoi(birth.substr(3, 2)); // waarom werkt dit op deze manier?
     birthYear = stoi(birth.substr(6, 10));
-
 
     time_t currentTime;
     time(&currentTime);
@@ -110,14 +114,23 @@ int monthsOld(int currentYear, int currentMonth, int currentDay,
 }
 
 int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
-    const int daysInMonth [12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int years = birthYear - 1900;
-    int leapYears = years / 4 - years / 100 + years / 400;
-    int days_since_1900 = (years* 365 + leapYears) 
-    for (size_t i = 0; i < count; i++)
+    cout << years << "\n";
+    int leapYears = years / 4 - years / 100;
+    cout << leapYears << "\n";
+    int days_since_1900 = (years* 365 + leapYears);
+
+    const int daysInMonth [12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    for (size_t i = 0; i < (birthMonth - 1); i++)
     {
-        /* code */
+        days_since_1900 += daysInMonth[i];
     }
+
+    days_since_1900 += birthDay;
+
+    cout << days_since_1900 << "\n";
+    cout << days_since_1900 % 7 << "\n";
+    return days_since_1900 % 7;
     
 }
 
