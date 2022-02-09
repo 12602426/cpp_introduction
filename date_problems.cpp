@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <time.h>
+#include <vector>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ int monthsOld(int currentYear, int currentMonth, int currentDay,
 int dayOfTheWeek(int birthYear,int birthMonth,int birthDay);
 
 
-void main() {
+int main() {
     int birthDay, birthMonth, birthYear, YO, MO;
     string birth;
     birth = birthInput();
@@ -27,13 +28,34 @@ void main() {
     time(&currentTime);
     tm* timePtr = localtime(&currentTime);
     int cDay, cMonth, cYear;
-    cDay =timePtr->tm_year+1900;
+    cYear =timePtr->tm_year+1900;
     cMonth = timePtr->tm_mon+1;
-    cYear = timePtr->tm_mday;
+    cDay= timePtr->tm_mday;
 
     YO = yearsOld(cYear, cMonth, cDay, birthYear, birthMonth, birthDay);
-    MO = monthsOld(cYear, cMonth, cDay, birthYear, birthMonth, birthDay);
+    cout << "You are " << YO << " years old." << "\n";
 
+    MO = monthsOld(cYear, cMonth, cDay, birthYear, birthMonth, birthDay);
+    cout << "You are " << MO << " months old." << "\n";
+
+    cout << "Do you know what day you were born on? Select a number (e.g. 1) \n";
+    vector<string> dayInWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    for (size_t i = 0; i < dayInWeek.size(); i++)
+    {
+        cout << i + 1 << ": " << dayInWeek[i] << "\n";
+    }
+
+    int guess;
+    cin >> guess;
+    int trueDay = dayOfTheWeek(birthYear, birthMonth, birthDay);
+    if (trueDay == guess) {
+        cout << "That is correct! \n";
+    }
+    else {
+        cout << "Nope you were born on " << dayInWeek[trueDay - 1] << "\n";
+    }
+    
+    return 0;
 }
 
 string birthInput() {
@@ -102,7 +124,6 @@ int yearsOld(int currentYear, int currentMonth, int currentDay,
     if (birthMonth  == currentMonth and birthDay < currentDay) {
         YearsOld += 1;
     }
-    cout << YearsOld << "\n";
     
     return YearsOld;
 }
@@ -115,9 +136,7 @@ int monthsOld(int currentYear, int currentMonth, int currentDay,
 
 int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
     int years = birthYear - 1900;
-    cout << years << "\n";
     int leapYears = years / 4 - years / 100;
-    cout << leapYears << "\n";
     int days_since_1900 = (years* 365 + leapYears);
 
     const int daysInMonth [12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -125,11 +144,8 @@ int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
     {
         days_since_1900 += daysInMonth[i];
     }
-
     days_since_1900 += birthDay;
 
-    cout << days_since_1900 << "\n";
-    cout << days_since_1900 % 7 << "\n";
     return days_since_1900 % 7;
     
 }
