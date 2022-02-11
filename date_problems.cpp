@@ -54,7 +54,7 @@ int main() {
     else {
         cout << "Nope you were born on " << dayInWeek[trueDay - 1] << "\n";
     }
-    
+
     return 0;
 }
 
@@ -76,7 +76,7 @@ string birthInput() {
                 cout << "Incorrent age!" << "\n";
                 correctInput = false;
             }
-        
+
             int daysInMonth [12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
             if (birthDay > daysInMonth[birthMonth - 1]) {
@@ -87,7 +87,7 @@ string birthInput() {
                     cout << "Are there that many days in this month?" << "\n";
                     correctInput = false;
                 }
-                
+
             }
 
             if (birthDay < 1 or birthMonth < 1) {
@@ -124,7 +124,7 @@ int yearsOld(int currentYear, int currentMonth, int currentDay,
     if (birthMonth  == currentMonth and birthDay < currentDay) {
         YearsOld += 1;
     }
-    
+
     return YearsOld;
 }
 
@@ -135,18 +135,24 @@ int monthsOld(int currentYear, int currentMonth, int currentDay,
 }
 
 int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
+    // lowest birthday can be 01-01-1900, which is a monday
     int years = birthYear - 1900;
+
+    // Count days until 01-01-yearBorn
     int leapYears = years / 4 - years / 100;
     int days_since_1900 = (years* 365 + leapYears);
 
+    // count days from 01-01-year born to 01-monthborn-yearborn
     const int daysInMonth [12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     for (size_t i = 0; i < (birthMonth - 1); i++)
     {
         days_since_1900 += daysInMonth[i];
     }
+
+    // count days from 01-monthborn-yearborn to birthday-monthborn-yearborn
     days_since_1900 += birthDay;
 
+    // We dont have to subtract a 1 since, monday is already day 1
     return days_since_1900 % 7;
-    
-}
 
+}
