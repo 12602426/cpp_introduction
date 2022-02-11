@@ -131,16 +131,31 @@ int yearsOld(int currentYear, int currentMonth, int currentDay,
 int monthsOld(int currentYear, int currentMonth, int currentDay,
              int birthYear, int birthMonth, int birthDay) {
 
-    return (currentYear - birthYear) * 12 + currentMonth - birthMonth - (currentDay < birthDay);
+    return (currentYear - birthYear) * 12 + currentMonth - birthMonth - (currentDay <= birthDay);
 }
 
 int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
     // lowest birthday can be 01-01-1900, which is a monday
-    int years = birthYear - 1900;
 
-    // Count days until 01-01-yearBorn
-    int leapYears = years / 4 - years / 100;
-    int days_since_1900 = (years* 365 + leapYears);
+    // calc leapyears
+    int leapYear = 0;
+    for (size_t i = 1900; i < birthYear; i++)
+    {
+      if (i % 4 == 0 and (i % 100 != 0 or i % 400 == 0)) {
+        leapYear++;
+      }
+    }
+
+    if (birthYear % 4 == 0 and (birthYear % 100 != 0 or birthYear % 400 == 0)) {
+      if (birthMonth > 2) {
+        leapYear++;
+      }
+    }
+
+
+    
+    int years = birthYear - 1900;
+    int days_since_1900 = (years* 365 + leapYear);
 
     // count days from 01-01-year born to 01-monthborn-yearborn
     const int daysInMonth [12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -153,6 +168,6 @@ int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
     days_since_1900 += birthDay;
 
     // We dont have to subtract a 1 since, monday is already day 1
-    return days_since_1900 % 7;
+    return (days_since_1900 - 1) % 7 + 1;
 
 }
