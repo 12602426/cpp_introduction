@@ -68,7 +68,7 @@ string birthInput() {
         try
         {
             birthDay = stoi(birth.substr(0, 2));
-            birthMonth = stoi(birth.substr(3, 2)); // waarom werkt dit op deze manier?
+            birthMonth = stoi(birth.substr(3, 2));
             birthYear = stoi(birth.substr(6, 10));
             correctInput = true;
 
@@ -77,11 +77,11 @@ string birthInput() {
                 correctInput = false;
             }
 
-            int daysInMonth [12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+            const int daysInMonth [12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
             if (birthDay > daysInMonth[birthMonth - 1]) {
-                if (birthMonth == 2 and birthYear % 4 == 0 and birthYear % 100 != 0) {
-                    cout << "Not many people were born on this day!";
+                if (birthMonth == 2 and birthYear % 4 == 0 and birthYear % 100 != 0 and birthDay == 29) {
+                    cout << "Not many people were born on this day!" << "\n";
                 }
                 else {
                     cout << "Are there that many days in this month?" << "\n";
@@ -151,8 +151,6 @@ int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
         leapYear++;
       }
     }
-
-
     
     int years = birthYear - 1900;
     int days_since_1900 = (years* 365 + leapYear);
@@ -165,9 +163,9 @@ int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
     }
 
     // count days from 01-monthborn-yearborn to birthday-monthborn-yearborn
-    days_since_1900 += birthDay;
+    days_since_1900 += birthDay - 1;
 
     // We dont have to subtract a 1 since, monday is already day 1
-    return (days_since_1900 - 1) % 7 + 1;
+    return (days_since_1900) % 7 + 1;
 
 }
